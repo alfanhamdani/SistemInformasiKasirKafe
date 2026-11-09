@@ -32,8 +32,8 @@ if (!isset($_SESSION['login']) || $_SESSION['role'] != 'manajer') {
 
             <h1>Kafe Filosofi - Manajer</h1>
 
-            <a href="index.php" class="kembali">
-                ← Kembali
+            <a href="logout.php" class="logout-button" onclick="return confirm('Apakah Anda yakin ingin logout?');">
+                Logout
             </a>
 
         </div>

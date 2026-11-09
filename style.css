@@ -503,7 +503,6 @@ body {
   }
 }
 
-/* css pembayaran */
 /* PEMBAYARAN */
 
 .payment-container {
@@ -1100,6 +1099,213 @@ table td {
 
 @media (max-width: 500px) {
   .report-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* BARISTA */
+
+.barista-container {
+  width: 100%;
+  max-width: 1000px;
+  min-height: 100vh;
+  margin: auto;
+  padding: 25px;
+}
+
+.barista-header {
+  background: #704719;
+  color: white;
+  padding: 13px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 3px;
+}
+
+.barista-header h1 {
+  font-size: 16px;
+}
+
+.barista-logout {
+  background: #8a5b2c;
+  color: white;
+  text-decoration: none;
+  padding: 7px 13px;
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.barista-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.barista-section {
+  background: #f8f6f2;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.barista-section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.barista-section-title h2 {
+  font-size: 14px;
+  color: #3d3028;
+}
+
+.barista-section-title span {
+  font-size: 9px;
+  background: #e8dfd4;
+  color: #704719;
+  padding: 5px 8px;
+  border-radius: 10px;
+}
+
+.order-card {
+  background: white;
+  padding: 14px;
+  border-radius: 7px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.order-card-header strong {
+  font-size: 11px;
+  color: #3d3028;
+}
+
+.order-card-header p {
+  margin-top: 4px;
+  font-size: 10px;
+  color: #888;
+}
+
+.status-baru {
+  background: #fff1bd;
+  color: #967000;
+  padding: 5px 8px;
+  border-radius: 10px;
+  font-size: 8px;
+}
+
+.status-proses {
+  background: #e7d8c8;
+  color: #704719;
+  padding: 5px 8px;
+  border-radius: 10px;
+  font-size: 8px;
+}
+
+.order-info {
+  display: flex;
+  gap: 30px;
+  padding: 9px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.order-info small {
+  color: #999;
+  font-size: 8px;
+}
+
+.order-info p {
+  color: #555;
+  font-size: 9px;
+  margin-top: 3px;
+}
+
+.order-detail {
+  margin: 10px 0;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 10px;
+}
+
+.order-item span {
+  color: #555;
+}
+
+.order-item strong {
+  color: #704719;
+}
+
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-bottom: 10px;
+  font-size: 10px;
+  color: #777;
+}
+
+.order-total strong {
+  color: #704719;
+  font-size: 11px;
+}
+
+.process-button,
+.finish-button {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  padding: 9px;
+  border-radius: 4px;
+  color: white;
+  font-size: 10px;
+}
+
+.process-button {
+  background: #704719;
+}
+
+.process-button:hover {
+  background: #583614;
+}
+
+.finish-button {
+  background: #8a6a42;
+}
+
+.finish-button:hover {
+  background: #704719;
+}
+
+.empty-order {
+  background: white;
+  padding: 30px 15px;
+  text-align: center;
+  color: #aaa;
+  font-size: 10px;
+  border-radius: 7px;
+}
+
+@media (max-width: 700px) {
+  .barista-container {
+    padding: 15px;
+  }
+
+  .barista-content {
     grid-template-columns: 1fr;
   }
 }

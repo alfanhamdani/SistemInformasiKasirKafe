@@ -122,12 +122,26 @@ if (!$data) {
                     </strong>
                 </div>
 
+                <div class="thank-you">
+
+                    Terima Kasih Atas Kunjungan Anda!
+
+                </div>
+
+
             </div>
+
+            <button type="button" onclick="window.print()" class="btn-print">
+
+                🖨 Cetak Struk
+
+            </button>
 
 
             <a href="dashboard_kasir.php" class="success-button">
                 Kembali ke Kasir
             </a>
+
 
         </div>
 

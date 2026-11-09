@@ -42,146 +42,124 @@ $query_kasir = mysqli_query($koneksi, "
 
 <body>
 
-<div class="kasir-container">
+    <div class="kasir-container">
 
-    <div class="kasir-header">
+        <div class="kasir-header">
 
-        <h1>Kafe Filosofi - Kasir</h1>
+            <h1>Kafe Filosofi - Kasir</h1>
 
-        <a href="index.php" class="kembali">
-            ← Kembali
-        </a>
+            <a href="logout.php" class="logout-button" onclick="return confirm('Apakah Anda yakin ingin logout?');">
+                Logout
+            </a>
 
-    </div>
-
-
-    <div class="kasir-content">
+        </div>
 
 
-        <div class="kasir-left">
+        <div class="kasir-content">
 
 
-            <!-- DATA PESANAN -->
-
-            <div class="kasir-box">
-
-                <h3>Data Pesanan</h3>
-
-                <div class="form-row">
-
-                    <div class="form-item">
-
-                        <label>Nama Kasir</label>
-
-                        <select id="kasir">
-
-                            <?php while ($kasir = mysqli_fetch_assoc($query_kasir)) { ?>
-
-                                <option 
-                                    value="<?php echo $kasir['id_user']; ?>"
-                                    <?php echo ($kasir['id_user'] == $_SESSION['id_user']) ? 'selected' : ''; ?>
-                                >
-                                    <?php echo htmlspecialchars($kasir['nama']); ?>
-                                </option>
-
-                            <?php } ?>
-
-                        </select>
-
-                    </div>
+            <div class="kasir-left">
 
 
-                    <div class="form-item">
+                <!-- DATA PESANAN -->
 
-                        <label>Nama Pelanggan</label>
+                <div class="kasir-box">
 
-                        <input 
-                            type="text"
-                            id="nama_pelanggan"
-                            placeholder="Masukkan nama pelanggan"
-                        >
+                    <h3>Data Pesanan</h3>
+
+                    <div class="form-row">
+
+                        <div class="form-item">
+
+                            <label>Nama Kasir</label>
+
+                            <input type="text" id="kasir" value="<?php echo htmlspecialchars($_SESSION['nama']); ?>"
+                                readonly>
+
+                        </div>
+
+
+                        <div class="form-item">
+
+                            <label>Nama Pelanggan</label>
+
+                            <input type="text" id="nama_pelanggan" placeholder="Masukkan nama pelanggan">
+
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div>
 
+                <!-- DAFTAR MENU -->
 
-            <!-- DAFTAR MENU -->
+                <div class="kasir-box menu-box">
 
-            <div class="kasir-box menu-box">
+                    <h3>Daftar Menu</h3>
 
-                <h3>Daftar Menu</h3>
+                    <div class="menu-list">
 
-                <div class="menu-list">
+                        <?php while ($menu = mysqli_fetch_assoc($query_menu)) { ?>
 
-                    <?php while ($menu = mysqli_fetch_assoc($query_menu)) { ?>
-
-                        <button
-                            type="button"
-                            class="menu-item"
-                            onclick="tambahMenu(
+                            <button type="button" class="menu-item" onclick="tambahMenu(
                                 <?php echo $menu['id_menu']; ?>,
                                 '<?php echo htmlspecialchars($menu['nama_menu'], ENT_QUOTES); ?>',
                                 <?php echo $menu['harga']; ?>
-                            )"
-                        >
+                            )">
 
-                            <span class="nama-menu">
-                                <?php echo htmlspecialchars($menu['nama_menu']); ?>
-                            </span>
+                                <span class="nama-menu">
+                                    <?php echo htmlspecialchars($menu['nama_menu']); ?>
+                                </span>
 
-                            <span class="harga-menu">
-                                Rp <?php echo number_format($menu['harga'], 0, ',', '.'); ?>
-                            </span>
+                                <span class="harga-menu">
+                                    Rp <?php echo number_format($menu['harga'], 0, ',', '.'); ?>
+                                </span>
 
-                        </button>
+                            </button>
 
-                    <?php } ?>
+                        <?php } ?>
+
+                    </div>
 
                 </div>
+
 
             </div>
 
 
-        </div>
+            <!-- PESANAN SAAT INI -->
 
+            <div class="pesanan-box">
 
-        <!-- PESANAN SAAT INI -->
+                <h3>Pesanan Saat Ini</h3>
 
-        <div class="pesanan-box">
+                <div id="daftar-pesanan">
 
-            <h3>Pesanan Saat Ini</h3>
-
-            <div id="daftar-pesanan">
-
-                <div class="kosong">
-                    Belum ada item
-                </div>
-
-            </div>
-
-
-            <div class="total-box">
-
-                <div class="total-row">
-
-                    <strong>TOTAL</strong>
-
-                    <strong id="total">
-                        Rp 0
-                    </strong>
+                    <div class="kosong">
+                        Belum ada item
+                    </div>
 
                 </div>
 
-                <button 
-                    type="button"
-                    class="konfirmasi"
-                    onclick="konfirmasiPesanan()"
-                >
-                    Konfirmasi Pesanan
-                </button>
+
+                <div class="total-box">
+
+                    <div class="total-row">
+
+                        <strong>TOTAL</strong>
+
+                        <strong id="total">
+                            Rp 0
+                        </strong>
+
+                    </div>
+
+                    <button type="button" class="konfirmasi" onclick="konfirmasiPesanan()">
+                        Konfirmasi Pesanan
+                    </button>
+
+                </div>
 
             </div>
 
@@ -189,104 +167,102 @@ $query_kasir = mysqli_query($koneksi, "
 
     </div>
 
-</div>
+
+    <script>
+
+        let pesanan = [];
 
 
-<script>
+        function tambahMenu(id, nama, harga) {
 
-let pesanan = [];
+            let item = pesanan.find(item => item.id == id);
 
+            if (item) {
 
-function tambahMenu(id, nama, harga) {
+                item.jumlah++;
 
-    let item = pesanan.find(item => item.id == id);
+            } else {
 
-    if (item) {
+                pesanan.push({
+                    id: id,
+                    nama: nama,
+                    harga: harga,
+                    jumlah: 1
+                });
 
-        item.jumlah++;
+            }
 
-    } else {
+            tampilkanPesanan();
 
-        pesanan.push({
-            id: id,
-            nama: nama,
-            harga: harga,
-            jumlah: 1
-        });
-
-    }
-
-    tampilkanPesanan();
-
-}
+        }
 
 
-function kurangiMenu(id) {
+        function kurangiMenu(id) {
 
-    let item = pesanan.find(item => item.id == id);
+            let item = pesanan.find(item => item.id == id);
 
-    if (!item) {
-        return;
-    }
+            if (!item) {
+                return;
+            }
 
-    item.jumlah--;
+            item.jumlah--;
 
-    if (item.jumlah <= 0) {
+            if (item.jumlah <= 0) {
 
-        pesanan = pesanan.filter(item => item.id != id);
+                pesanan = pesanan.filter(item => item.id != id);
 
-    }
+            }
 
-    tampilkanPesanan();
+            tampilkanPesanan();
 
-}
-
-
-function tambahJumlah(id) {
-
-    let item = pesanan.find(item => item.id == id);
-
-    if (item) {
-
-        item.jumlah++;
-
-    }
-
-    tampilkanPesanan();
-
-}
+        }
 
 
-function tampilkanPesanan() {
+        function tambahJumlah(id) {
 
-    const daftar = document.getElementById("daftar-pesanan");
+            let item = pesanan.find(item => item.id == id);
 
-    if (pesanan.length === 0) {
+            if (item) {
 
-        daftar.innerHTML = `
+                item.jumlah++;
+
+            }
+
+            tampilkanPesanan();
+
+        }
+
+
+        function tampilkanPesanan() {
+
+            const daftar = document.getElementById("daftar-pesanan");
+
+            if (pesanan.length === 0) {
+
+                daftar.innerHTML = `
             <div class="kosong">
                 Belum ada item
             </div>
         `;
 
-        document.getElementById("total").innerText = "Rp 0";
+                document.getElementById("total").innerText = "Rp 0";
 
-        return;
-    }
-
-
-    let html = "";
-    let total = 0;
+                return;
+            }
 
 
-    pesanan.forEach(item => {
-
-        let subtotal = item.harga * item.jumlah;
-
-        total += subtotal;
+            let html = "";
+            let total = 0;
 
 
-        html += `
+            pesanan.forEach(item => {
+
+                let subtotal = item.harga * item.jumlah;
+
+                total += subtotal;
+
+
+                html += `
 
             <div class="pesanan-item">
 
@@ -326,78 +302,78 @@ function tampilkanPesanan() {
 
         `;
 
-    });
+            });
 
 
-    daftar.innerHTML = html;
+            daftar.innerHTML = html;
 
 
-    document.getElementById("total").innerText =
-        "Rp " + total.toLocaleString('id-ID');
+            document.getElementById("total").innerText =
+                "Rp " + total.toLocaleString('id-ID');
 
-}
-
-
-function konfirmasiPesanan() {
-
-    const namaPelanggan =
-        document.getElementById("nama_pelanggan").value.trim();
+        }
 
 
-    if (namaPelanggan === "") {
+        function konfirmasiPesanan() {
 
-        alert("Nama pelanggan harus diisi!");
-
-        return;
-
-    }
+            const namaPelanggan =
+                document.getElementById("nama_pelanggan").value.trim();
 
 
-    if (pesanan.length === 0) {
+            if (namaPelanggan === "") {
 
-        alert("Silakan pilih menu terlebih dahulu!");
+                alert("Nama pelanggan harus diisi!");
 
-        return;
+                return;
 
-    }
-
-
-    let form = document.createElement("form");
-
-    form.method = "POST";
-
-    form.action = "proses_pesanan.php";
+            }
 
 
-    let pelanggan = document.createElement("input");
+            if (pesanan.length === 0) {
 
-    pelanggan.type = "hidden";
+                alert("Silakan pilih menu terlebih dahulu!");
 
-    pelanggan.name = "nama_pelanggan";
+                return;
 
-    pelanggan.value = namaPelanggan;
-
-    form.appendChild(pelanggan);
+            }
 
 
-    let dataPesanan = document.createElement("input");
+            let form = document.createElement("form");
 
-    dataPesanan.type = "hidden";
+            form.method = "POST";
 
-    dataPesanan.name = "pesanan";
-
-    dataPesanan.value = JSON.stringify(pesanan);
-
-    form.appendChild(dataPesanan);
+            form.action = "proses_pesanan.php";
 
 
-    document.body.appendChild(form);
+            let pelanggan = document.createElement("input");
 
-    form.submit();
+            pelanggan.type = "hidden";
 
-}
+            pelanggan.name = "nama_pelanggan";
 
-</script>
+            pelanggan.value = namaPelanggan;
+
+            form.appendChild(pelanggan);
+
+
+            let dataPesanan = document.createElement("input");
+
+            dataPesanan.type = "hidden";
+
+            dataPesanan.name = "pesanan";
+
+            dataPesanan.value = JSON.stringify(pesanan);
+
+            form.appendChild(dataPesanan);
+
+
+            document.body.appendChild(form);
+
+            form.submit();
+
+        }
+
+    </script>
 
 </body>
 

@@ -13,7 +13,6 @@ if (!isset($_SESSION['login']) || $_SESSION['role'] != 'manajer') {
 $query_total = mysqli_query($koneksi, "
     SELECT COUNT(*) AS total
     FROM pesanan
-    WHERE status = 'dibayar'
 ");
 
 $data_total = mysqli_fetch_assoc($query_total);
@@ -22,7 +21,6 @@ $data_total = mysqli_fetch_assoc($query_total);
 $query_pendapatan = mysqli_query($koneksi, "
     SELECT COALESCE(SUM(total), 0) AS pendapatan
     FROM pesanan
-    WHERE status = 'dibayar'
 ");
 
 $data_pendapatan = mysqli_fetch_assoc($query_pendapatan);
@@ -37,7 +35,7 @@ $query_menu = mysqli_query($koneksi, "
         ON detail_pesanan.id_menu = menu.id_menu
     INNER JOIN pesanan
         ON detail_pesanan.id_pesanan = pesanan.id_pesanan
-    WHERE pesanan.status = 'dibayar'
+    WHERE pesanan.status IN ('dibayar', 'selesai')
     GROUP BY detail_pesanan.id_menu
     ORDER BY jumlah_terjual DESC
     LIMIT 5

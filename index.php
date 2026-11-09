@@ -14,7 +14,7 @@
 
         <div class="header">
             <h1>Kafe Filosofi</h1>
-            <p>Sistem Pemesanan Cafe</p>
+            <p>Sistem Kasir Kafe</p>
         </div>
 
         <div class="menu-container">
